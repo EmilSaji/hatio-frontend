@@ -1,0 +1,72 @@
+.project-root {
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.project-table {
+  width: 65%;
+  border-collapse: collapse;
+}
+
+.project-table th,
+.project-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.project-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4caf50;
+  color: white;
+}
+
+.edit-button {
+  text-align: center;
+  width: 30%;
+  padding: 5px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button {
+  text-align: center;
+  width: 30%;
+  padding: 5px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #d34d13;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #a43509;
+}
+
+.create-button {
+  text-align: center;
+  width: 19%;
+  padding: 12px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.create-button:hover {
+  background-color: #0056b3;
+}

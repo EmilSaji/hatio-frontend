@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import AuthContext from "../../AuthContext";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const { loginDetails, setLoginDetails } = useContext(AuthContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -44,7 +50,8 @@ const Login = () => {
           username: username,
           password: password,
         });
-        console.log(response.data);
+        setLoginDetails(response.data.userWithoutPassword)
+        navigate("/home");
       } else {
         Swal.fire({
           title: "Failed",
@@ -57,7 +64,7 @@ const Login = () => {
       Swal.fire({
         title: error.response.data.message,
         icon: "error",
-        text: 'Please create an account',
+        text: "Please create an account",
         confirmButtonText: "OK",
       });
     }

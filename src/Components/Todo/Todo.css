@@ -1,0 +1,23 @@
+.status-button {
+  text-align: center;
+  width: 80%;
+  padding: 8px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.todo-delete-button {
+  text-align: center;
+  width: 80%;
+  padding: 8px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #d54821;
+  color: white;
+  cursor: pointer;
+}

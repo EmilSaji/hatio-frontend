@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { loginDetails, setLoginDetails, setProjectDetails } = useContext(AuthContext);
+  const { loginDetails, setLoginDetails, setProjectDetails } =
+    useContext(AuthContext);
   const [projects, setProjects] = useState(null);
 
   const fetchData = async () => {
@@ -16,7 +17,6 @@ const Home = () => {
       const response = await axios.get(
         `http://localhost:5000/project/fetch/${userId}`
       );
-      console.log(response.data);
       setProjects(response.data.projects);
     } catch (error) {
       console.error(error);
@@ -30,15 +30,14 @@ const Home = () => {
   }, [loginDetails.id]);
 
   const handleView = (projectId) => {
-    console.log(projectId);
-    setProjectDetails(projectId)
-    navigate('/todo')
+    setProjectDetails(projectId);
+    navigate("/todo");
   };
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/project/delete`, {
-        data: { projectId: id }, // Send data as a body
+        data: { projectId: id },
       });
       Swal.fire({
         title: "Project Deleted",
@@ -60,25 +59,25 @@ const Home = () => {
       <table className="project-table">
         <thead>
           <tr>
-            <th colSpan={3} style={{ textAlign: "center" }}>
+            <th colSpan={4}>
               <button onClick={() => createProject()} className="create-button">
                 Create a Project
               </button>
             </th>
           </tr>
           <tr>
+            <th>Sl No.</th>
             <th>Title</th>
-            <th colSpan={2} style={{ textAlign: "center" }}>
-              Actions
-            </th>
+            <th colSpan={2}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {projects &&
-            projects.map((project) => (
+            projects.map((project, index) => (
               <tr key={project.id}>
+                <td>{index + 1}</td>
                 <td>{project.title}</td>
-                <td style={{ textAlign: "center" }}>
+                <td>
                   <button
                     className="edit-button"
                     onClick={() => handleView(project.id)}
@@ -86,7 +85,7 @@ const Home = () => {
                     View
                   </button>
                 </td>
-                <td style={{ textAlign: "center" }}>
+                <td>
                   <button
                     className="delete-button"
                     onClick={() => handleDelete(project.id)}

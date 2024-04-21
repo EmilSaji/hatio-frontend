@@ -7,12 +7,14 @@ import "./Todo.css";
 
 const Todo = () => {
   const navigate = useNavigate();
-  const { projectDetails } = useContext(AuthContext);
+  const { projectDetails, setProjectDetails } = useContext(AuthContext);
   const [todos, setTodos] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [newTitle, setNewTitle] = useState(projectDetails.title);
 
   const fetchData = async () => {
     try {
-      const id = projectDetails;
+      const id = projectDetails.projectId;
       const response = await axios.post("http://localhost:5000/todo/fetch", {
         projectId: id,
       });
@@ -54,7 +56,7 @@ const Todo = () => {
     try {
       console.log(todoId);
       await axios.delete("http://localhost:5000/todo/delete", {
-        data: { id: todoId }
+        data: { id: todoId },
       });
       fetchData();
       Swal.fire({
@@ -67,13 +69,90 @@ const Todo = () => {
     }
   };
 
+  const createTodo = () => {
+    navigate("/create-todo");
+  };
+
+  const backToHome = () => {
+    navigate("/home");
+  };
+
+  const editTitle = async () => {
+    try {
+      const projectIdCopy = projectDetails.projectId;
+      await axios.post(`http://localhost:5000/project/update`, {
+        title: newTitle,
+        projectId: projectIdCopy,
+      });
+      Swal.fire({
+        title: "Project Title Changed",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      setProjectDetails({
+        title: newTitle,
+        projectId: projectIdCopy,
+      });
+      setEditMode(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+
+    return `${formattedDay}-${formattedMonth}-${year}`;
+  };
+
   return (
     <div className="project-root">
       <table className="project-table">
         <thead>
           <tr>
             <th colSpan={6} style={{ textAlign: "center" }}>
-              <button className="create-button">Add Todo</button>
+              <button className="create-button" onClick={() => createTodo()}>
+                Add Todo
+              </button>
+              <button className="back-button-2" onClick={() => backToHome()}>
+                {" "}
+                Back
+              </button>
+            </th>
+          </tr>
+          <tr>
+            <th colSpan={6}>
+              {editMode ? (
+                <>
+                  <input
+                    type="text"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    className="input-box-2"
+                  />
+                  <button
+                    onClick={() => editTitle()}
+                    className="title-edit-button"
+                  >
+                    Confirm
+                  </button>
+                </>
+              ) : (
+                <>
+                  {projectDetails.title}
+                  <button
+                    onClick={() => setEditMode(true)}
+                    className="title-edit-button"
+                  >
+                    Edit
+                  </button>
+                </>
+              )}
             </th>
           </tr>
           <tr>
@@ -90,7 +169,7 @@ const Todo = () => {
               <tr key={todo.id}>
                 <td>{index + 1}</td>
                 <td>{todo.description}</td>
-                <td>{todo.created_date}</td>
+                <td>{formatDate(todo.created_date)}</td>
                 <td>{todo.status}</td>
                 <td>
                   <button

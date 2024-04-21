@@ -5,6 +5,7 @@ import Home from "./Components/Home/Home";
 import AuthContext from "./AuthContext";
 import CreateProject from "./Components/CreateProject/CreateProject";
 import Todo from "./Components/Todo/Todo";
+import CreateTodo from "./Components/CreateTodo/CreateTodo";
 
 const App = () => {
   const [loginDetails, setLoginDetails] = useState(null);
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/home" element={<Home />}></Route>
             <Route path="/create-project" element={<CreateProject />}></Route>
             <Route path="/todo" element={<Todo />}></Route>
+            <Route path="/create-todo" element={<CreateTodo />}></Route>
           </Routes>
         </div>
       </Router>

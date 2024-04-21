@@ -21,3 +21,42 @@
   color: white;
   cursor: pointer;
 }
+
+.back-button-2 {
+  margin-left: 81px;
+  text-align: center;
+  width: 20%;
+  padding: 11px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #d54821;
+  color: white;
+  cursor: pointer;
+}
+
+.title-edit-button {
+  margin-left: 14px;
+  text-align: center;
+  width: 8%;
+  padding: 3px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #21b7d5;
+  color: white;
+  cursor: pointer;
+}
+
+.input-box-2 {
+  width: 30%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-box-2:focus {
+  border-color: #007bff;
+}

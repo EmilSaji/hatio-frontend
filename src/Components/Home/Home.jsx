@@ -29,8 +29,8 @@ const Home = () => {
     }
   }, [loginDetails.id]);
 
-  const handleView = (projectId) => {
-    setProjectDetails(projectId);
+  const handleView = (projectId, title) => {
+    setProjectDetails({projectId, title});
     navigate("/todo");
   };
 
@@ -54,6 +54,10 @@ const Home = () => {
     navigate("/create-project");
   };
 
+  const logOut = () => {
+    navigate("/");
+  };
+
   return (
     <div className="project-root">
       <table className="project-table">
@@ -63,7 +67,14 @@ const Home = () => {
               <button onClick={() => createProject()} className="create-button">
                 Create a Project
               </button>
+              <button className="back-button-2" onClick={() => logOut()}>
+                {" "}
+                Log Out
+              </button>
             </th>
+          </tr>
+          <tr>
+            <th colSpan={6}>Project(s)</th>
           </tr>
           <tr>
             <th>Sl No.</th>
@@ -80,7 +91,7 @@ const Home = () => {
                 <td>
                   <button
                     className="edit-button"
-                    onClick={() => handleView(project.id)}
+                    onClick={() => handleView(project.id, project.title)}
                   >
                     View
                   </button>

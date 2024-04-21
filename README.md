@@ -27,6 +27,10 @@ Before you begin, ensure you have met the following requirements:
 4. Run the app
     ```sh
     npm start
+    
+5. Access the app at: 
+    ```sh
+    http://localhost:3000/
 
 
 ### Stack Used

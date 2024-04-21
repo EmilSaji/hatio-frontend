@@ -8,6 +8,7 @@ To get a local copy up and running follow these simple steps.
 
 Before you begin, ensure you have met the following requirements:
 - Node.js installed on your machine. You can download it [here](https://nodejs.org/).
+- Also ensure that the backend server is up. [Backend](https://github.com/EmilSaji/hatio-backend)
 
 ### Installation
 

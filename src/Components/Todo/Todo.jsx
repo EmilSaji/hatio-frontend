@@ -110,6 +110,88 @@ const Todo = () => {
     return `${formattedDay}-${formattedMonth}-${year}`;
   };
 
+  const exportToMarkdown = async () => {
+    if (!todos) return;
+
+    let markdownContent = `# ${projectDetails.title}\n\nSummary: ${
+      todos.filter((todo) => todo.status === "Completed").length
+    }/${todos.length} todos completed\n\n`;
+
+    const pendingTodos = todos.filter((todo) => todo.status === "Pending");
+    const completedTodos = todos.filter((todo) => todo.status === "Completed");
+
+    if (pendingTodos.length > 0) {
+      markdownContent += "### Pending\n";
+      pendingTodos.forEach((todo) => {
+        markdownContent += `-  [ ] ${todo.description}\n`;
+      });
+      markdownContent += "\n";
+    }
+
+    if (completedTodos.length > 0) {
+      markdownContent += "### Completed\n";
+      completedTodos.forEach((todo) => {
+        markdownContent += `-  [x] ${todo.description}\n`;
+      });
+    }
+
+    const blob = new Blob([markdownContent], { type: "text/markdown" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "todo_list.md";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+
+    try {
+      const response = await axios.post(
+        "https://api.github.com/gists",
+        {
+          public: false,
+          files: {
+            "todo_list.md": {
+              content: markdownContent,
+            },
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer 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`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        const gistUrl = response.data.html_url;
+        console.log("Gist created successfully:", gistUrl);
+        Swal.fire({
+          title: "Exported to Gist",
+          text: `Link: ${gistUrl}`,
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      } else {
+        console.error("Failed to create gist:", response.statusText);
+        Swal.fire({
+          title: "Export Failed",
+          text: "Failed to export markdown content as a Gist.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (error) {
+      console.error("Error exporting to Gist:", error);
+      Swal.fire({
+        title: "Export Failed",
+        text: "An error occurred while exporting markdown content as a Gist.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
   return (
     <div className="project-root">
       <table className="project-table">
@@ -122,6 +204,12 @@ const Todo = () => {
               <button className="back-button-2" onClick={() => backToHome()}>
                 {" "}
                 Back
+              </button>
+              <button
+                className="export-button"
+                onClick={() => exportToMarkdown()}
+              >
+                Export
               </button>
             </th>
           </tr>

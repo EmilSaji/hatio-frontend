@@ -60,3 +60,16 @@
 .input-box-2:focus {
   border-color: #007bff;
 }
+
+.export-button {
+  margin-left: 109px;
+  text-align: center;
+  width: 23%;
+  padding: 10px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #393a36;
+  color: white;
+  cursor: pointer;
+}

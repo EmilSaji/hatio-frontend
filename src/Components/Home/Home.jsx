@@ -17,7 +17,9 @@ const Home = () => {
       const response = await axios.get(
         `http://localhost:5000/project/fetch/${userId}`
       );
-      setProjects(response.data.projects);
+      response.data.projects.length > 0
+        ? setProjects(response.data.projects)
+        : setProjects(null);
     } catch (error) {
       console.error(error);
     }
@@ -30,7 +32,7 @@ const Home = () => {
   }, [loginDetails.id]);
 
   const handleView = (projectId, title) => {
-    setProjectDetails({projectId, title});
+    setProjectDetails({ projectId, title });
     navigate("/todo");
   };
 
@@ -82,9 +84,9 @@ const Home = () => {
             <th colSpan={2}>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {projects &&
-            projects.map((project, index) => (
+        {projects ? (
+          <tbody>
+            {projects.map((project, index) => (
               <tr key={project.id}>
                 <td>{index + 1}</td>
                 <td>{project.title}</td>
@@ -106,7 +108,14 @@ const Home = () => {
                 </td>
               </tr>
             ))}
-        </tbody>
+          </tbody>
+        ) : (
+          <tbody>
+            <tr>
+              <th colSpan={6}>No Project(s) to display !!</th>
+            </tr>
+          </tbody>
+        )}
       </table>
     </div>
   );

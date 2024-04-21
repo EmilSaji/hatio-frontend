@@ -22,6 +22,7 @@ const CreateProject = () => {
         title: title,
         userId: loginDetails.id
       });
+      setTitle('')
       Swal.fire({
         title: "Project Added",
         icon: "success",

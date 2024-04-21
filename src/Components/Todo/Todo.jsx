@@ -18,7 +18,9 @@ const Todo = () => {
       const response = await axios.post("http://localhost:5000/todo/fetch", {
         projectId: id,
       });
-      setTodos(response.data.todos);
+      response.data.todos.length > 0
+        ? setTodos(response.data.todos)
+        : setTodos(null);
     } catch (error) {
       console.error(error);
     }
@@ -54,7 +56,6 @@ const Todo = () => {
 
   const deleteTodo = async (todoId) => {
     try {
-      console.log(todoId);
       await axios.delete("http://localhost:5000/todo/delete", {
         data: { id: todoId },
       });
@@ -165,7 +166,6 @@ const Todo = () => {
 
       if (response.status === 201) {
         const gistUrl = response.data.html_url;
-        console.log("Gist created successfully:", gistUrl);
         Swal.fire({
           title: "Exported to Gist",
           text: `Link: ${gistUrl}`,
@@ -251,35 +251,43 @@ const Todo = () => {
             <th colSpan={2}>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {todos &&
-            todos.map((todo, index) => (
-              <tr key={todo.id}>
-                <td>{index + 1}</td>
-                <td>{todo.description}</td>
-                <td>{formatDate(todo.created_date)}</td>
-                <td>{todo.status}</td>
-                <td>
-                  <button
-                    className="status-button"
-                    onClick={() =>
-                      changeStatus(todo.id, todo.status, todo.description)
-                    }
-                  >
-                    Change Status
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="todo-delete-button"
-                    onClick={() => deleteTodo(todo.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
+        {todos ? (
+          <tbody>
+            {todos &&
+              todos.map((todo, index) => (
+                <tr key={todo.id}>
+                  <td>{index + 1}</td>
+                  <td>{todo.description}</td>
+                  <td>{formatDate(todo.created_date)}</td>
+                  <td>{todo.status}</td>
+                  <td>
+                    <button
+                      className="status-button"
+                      onClick={() =>
+                        changeStatus(todo.id, todo.status, todo.description)
+                      }
+                    >
+                      Change Status
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="todo-delete-button"
+                      onClick={() => deleteTodo(todo.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        ) : (
+          <tbody>
+            <tr>
+              <td colSpan={6}>No todo(s) to display !</td>
+            </tr>
+          </tbody>
+        )}
       </table>
     </div>
   );
